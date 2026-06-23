@@ -5,7 +5,7 @@ export const TEMPLATES = [
     description: 'Специальная коллекция к Рамадану',
     badge: 'Хит',
     badgeColor: 'bg-amber-500',
-    image: '/rugs/ramadan_edition.jpg',   // ← путь к фото (null = показывать SVG)
+    image: null,   // ← поставь путь к фото когда файл появится
     config: {
       color: 'emerald',
       material: 'silk',

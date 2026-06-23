@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { TEMPLATES } from '../../config/templates.js';
@@ -44,23 +45,28 @@ export default function TemplatesGrid() {
 
 export function TemplateCard({ tmpl, onSelect }) {
   const price = calculatePrice(tmpl.config);
+  const [imgError, setImgError] = useState(false);
+
+  const showPhoto = tmpl.image && !imgError;
 
   return (
     <button
       onClick={() => onSelect(tmpl)}
-      className="group card text-left hover:shadow-xl hover:-translate-y-1 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
+      className="group card text-left hover:shadow-xl hover:-translate-y-1 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 overflow-hidden"
     >
-      {/* Preview */}
+      {/* Preview area */}
       <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden aspect-[2/3] flex items-center justify-center">
         {tmpl.badge && (
           <span className={`absolute top-3 left-3 text-[10px] font-bold text-white px-2 py-0.5 rounded-full z-10 ${tmpl.badgeColor}`}>
             {tmpl.badge}
           </span>
         )}
-        {tmpl.image ? (
+
+        {showPhoto ? (
           <img
             src={tmpl.image}
-            alt={tmpl.name}
+            alt=""
+            onError={() => setImgError(true)}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
           />
