@@ -18,15 +18,15 @@
 
 @layer components {
   .btn-gold {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-gold-500 text-white font-semibold rounded-full transition-all duration-200 hover:bg-gold-600 active:scale-95 shadow-gold;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-gold-500 text-white font-semibold rounded-full transition-all duration-200 hover:bg-gold-600 hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.98] active:translate-y-0 shadow-gold;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-gold-500 text-gold-600 font-semibold rounded-full transition-all duration-200 hover:bg-gold-500 hover:text-white active:scale-95;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-gold-500 text-gold-600 font-semibold rounded-full transition-all duration-200 hover:bg-gold-500 hover:text-white hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0;
   }
 
   .btn-dark {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-rug-green text-white font-semibold rounded-full transition-all duration-200 hover:bg-rug-dark active:scale-95;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-rug-green text-white font-semibold rounded-full transition-all duration-200 hover:bg-rug-dark hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0;
   }
 
   .section-title {
@@ -55,6 +55,42 @@
 
   .panel-label {
     @apply text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3;
+  }
+}
+
+/* ── Scroll-reveal animation ─────────────────────────────────────── */
+.reveal-card {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.reveal-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 350ms ease-out, transform 350ms ease-out;
+}
+
+/* ── RugPreview fade-in on design change ─────────────────────────── */
+@keyframes previewFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-preview-in {
+  animation: previewFadeIn 240ms ease-out;
+}
+
+/* ── Respect prefers-reduced-motion ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-card {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-card.is-visible {
+    transition: none;
+  }
+  .animate-preview-in {
+    animation: none;
   }
 }
 

@@ -41,10 +41,10 @@ export default function PriceSummary({ design, onAddToCart, onReset, added }) {
           onClick={onAddToCart}
           className={`
             flex-1 flex items-center justify-center gap-2 h-11 rounded-full font-semibold text-sm
-            transition-all duration-200 active:scale-95
+            transition-all duration-200 active:scale-[0.98]
             ${added
               ? 'bg-rug-green text-white'
-              : 'bg-gold-500 text-white hover:bg-gold-600 shadow-gold'
+              : 'bg-gold-500 text-white hover:bg-gold-600 hover:-translate-y-0.5 hover:shadow-lg shadow-gold'
             }
           `}
         >

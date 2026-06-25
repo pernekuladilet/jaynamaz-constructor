@@ -28,8 +28,8 @@ export default function TemplatesPage() {
 
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
-          {TEMPLATES.map((tmpl) => (
-            <TemplateCard key={tmpl.id} tmpl={tmpl} onSelect={handleSelect} />
+          {TEMPLATES.map((tmpl, i) => (
+            <TemplateCard key={tmpl.id} tmpl={tmpl} onSelect={handleSelect} index={i} />
           ))}
         </div>
       </div>

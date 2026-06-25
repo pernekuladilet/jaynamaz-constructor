@@ -383,11 +383,15 @@ export default function RugPreview({ design, className = '' }) {
     return `rgb(${lighten(r)},${lighten(g)},${lighten(b)})`;
   }, [baseColor]);
 
+  // Key that changes whenever main visual properties change — triggers fade-in
+  const animKey = `${color}-${material}-${pattern}-${border}`;
+
   // ── Hybrid mode: real photo base + SVG overlay ──────────────────
   if (photoUrl) {
     return (
       <div
-        className={`relative flex items-center justify-center ${className}`}
+        key={animKey}
+        className={`relative flex items-center justify-center animate-preview-in ${className}`}
         style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))' }}
       >
         {tassels && (
@@ -439,13 +443,14 @@ export default function RugPreview({ design, className = '' }) {
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <svg
+        key={animKey}
         viewBox="0 0 280 430"
         xmlns="http://www.w3.org/2000/svg"
         style={{
           filter: 'drop-shadow(0 30px 60px rgba(0,0,0,0.45)) drop-shadow(0 8px 16px rgba(0,0,0,0.2))',
           maxHeight: '70vh',
         }}
-        className="w-full max-w-[280px] transition-all duration-300"
+        className="w-full max-w-[280px] transition-all duration-300 animate-preview-in"
         aria-label="Превью жайнамаза"
         role="img"
       >

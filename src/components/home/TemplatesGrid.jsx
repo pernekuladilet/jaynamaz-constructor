@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { TEMPLATES } from '../../config/templates.js';
@@ -34,8 +34,8 @@ export default function TemplatesGrid() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 lg:gap-6">
-          {FEATURED.map((tmpl) => (
-            <TemplateCard key={tmpl.id} tmpl={tmpl} onSelect={handleSelect} />
+          {FEATURED.map((tmpl, i) => (
+            <TemplateCard key={tmpl.id} tmpl={tmpl} onSelect={handleSelect} index={i} />
           ))}
         </div>
       </div>
@@ -43,16 +43,40 @@ export default function TemplatesGrid() {
   );
 }
 
-export function TemplateCard({ tmpl, onSelect }) {
+export function TemplateCard({ tmpl, onSelect, index = 0 }) {
   const price = calculatePrice(tmpl.config);
   const [imgError, setImgError] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    el.classList.add('reveal-card');
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // stagger by column position in a 4-col grid
+          const delay = (index % 4) * 80;
+          setTimeout(() => el.classList.add('is-visible'), delay);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -16px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [index]);
 
   const showPhoto = tmpl.image && !imgError;
 
   return (
     <button
+      ref={cardRef}
       onClick={() => onSelect(tmpl)}
-      className="group card text-left hover:shadow-xl hover:-translate-y-1 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 overflow-hidden"
+      className="group card text-left cursor-pointer hover:shadow-xl hover:-translate-y-1.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 overflow-hidden"
     >
       {/* Preview area */}
       <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden aspect-[2/3] flex items-center justify-center">
